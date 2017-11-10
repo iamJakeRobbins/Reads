@@ -11,6 +11,7 @@ var methodOverride = require('method-override')
 var index = require('./routes/index');
 var users = require('./routes/users');
 var book = require('./routes/book');
+var author = require('./routes/author');
 
 var app = express();
 
@@ -36,6 +37,7 @@ app.use(expressValidator({
 app.use('/', index);
 app.use('/users', users);
 app.use('/books', book);
+app.use('/authors', author)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -4,6 +4,58 @@ const knex = require('../db/knex')
 
 // functions
 
+function mapAuthorsToBooks(records){
+    var mappedBooks = records.reduce(function(mappedBooks, currentRecord){
+        currentRecord = reassignBookIdToId(currentRecord);
+        var bookId = currentRecord.id
+
+        var author = extractAuthorFromRecord(currentRecord);
+        currentRecord = deleteAuthorFromRecord(currentRecord);
+
+        if (!mappedBooks.hasOwnProperty(bookId)){
+            currentRecord.authors = [author];
+            mappedBooks[bookId] = currentRecord;
+        } else {
+            mappedBooks[bookId].authors.push(author);
+        }
+
+        return mappedBooks;
+    }, {});
+
+    var books = [];
+    for (var bookId in mappedBooks){
+        books.push(mappedBooks[bookId]);
+    }
+    return books;
+}
+function reassignBookIdToId(record){
+    record.id = record.book_id;
+    delete record.book_id;
+    return record;
+}
+function extractAuthorFromRecord(record){
+    return {
+        id: record.author_id,
+        first_name: record.first_name,
+        last_name: record.last_name,
+        biography: record.biography,
+        portrait_url: record.portrait_url
+    };
+}
+
+function deleteAuthorFromRecord(record){
+    var properties = [
+        "author_id", "first_name", "last_name", "biography", "portrait_url"
+    ];
+
+    for (var i = 0, length = properties.length; i < length; i++){
+        delete record[properties[i]];
+    }
+
+    return record;
+}
+
+
 function validId(id) {
   return !isNaN(id);
 }
@@ -31,14 +83,24 @@ function validator(req,res,callback){
 }
 
 
-/* GET home page. */
-router.get('/', (req, res) =>{
-	knex('book')
-	.select()
-	.then((bookData)=> {
-  res.render('books/allbooks', {book:bookData});
-	})
+router.get("/", function(request, response, next) {
+    knex("book")
+        .select()
+        .innerJoin("book_author", "book.id", "book_id")
+        .innerJoin("author", "author_id", "author.id")
+    .then(function(records){
+        var books = mapAuthorsToBooks(records);
+        response.render("books/allbooks", {book: books});
+    });
 });
+/* GET home page. */
+// router.get('/', (req, res) =>{
+// 	knex('book')
+// 	.select()
+// 	.then((bookData)=> {
+//   res.render('books/allbooks', {book:bookData});
+// 	})
+// });
 // GET delete book page
 router.get('/:id/deleteBook', (req,res) => {
 	const id = req.params.id;

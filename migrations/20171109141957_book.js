@@ -1,17 +1,13 @@
 exports.up = function(knex, Promise) {
-  return Promise.all([
-    knex.schema.createTable('book', (table) => {
-      table.increments().primary
-      table.string('title')
-      table.string('cover')
-      table.string('genre')
-			table.text('description')
-    })
-  ])
+    return knex.schema.createTable("book", function(bookTable){
+        bookTable.increments("id");
+        bookTable.string("title");
+        bookTable.string("genre");
+        bookTable.text("description");
+        bookTable.text("cover_url");
+    });
 };
 
 exports.down = function(knex, Promise) {
-  return Promise.all([
-    knex.schema.dropTable('book')
-  ])
+    return knex.schema.dropTable("book");
 };
