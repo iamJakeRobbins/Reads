@@ -75,6 +75,20 @@ router.get('/new', (req, res) =>{
 	res.render('authors/newAuthor', {layout: "layout_author"})
 })
 
+router.get("/:id/editAuthor", function(request, response, next) {
+    Promise.all([
+        knex("author")
+            .select("*", "author.id AS author_id")
+            .leftOuterJoin("book_author", "author.id", "author_id")
+            .leftOuterJoin("book", "book_id", "book.id")
+            .where("author.id", request.params.id),
+        knex("book").select()
+    ]).then(function(results){
+        var authors = mapBooksToAuthors(results[0]);
+        response.render("authors/editAuthor", {layout: "layout_author", author: authors[0], books: results[1]});
+    });
+});
+
 router.get("/:id/deleteAuthor", function(request, response, next) {
     knex("author")
         .select("*", "author.id AS author_id")
@@ -105,6 +119,28 @@ router.post("/", function(request, response, next) {
             portrait_url: request.body.portrait_url
         }).then(function(){
             response.redirect('authors/allAuthors');
+        });
+    }
+});
+
+
+router.put("/:id", function(request, response, next) {
+    request.checkBody("first_name", "First name is empty or too long").notEmpty().isLength({max: 255});
+    request.checkBody("last_name", "Last name is empty or too long").notEmpty().isLength({max: 255});
+    request.checkBody("biography", "Biography is too long").isLength({max: 10000});
+    request.checkBody("portrait_url", "Not a URL").isUrl(request.body.portrait_url);
+
+    var errors = request.validationErrors();
+    if (errors){
+        response.render("error", {errors: errors});
+    } else {
+        knex("author").update({
+            first_name: request.body.first_name,
+            last_name: request.body.last_name,
+            biography: request.body.biography,
+            portrait_url: request.body.portrait_url
+        }).where("id", request.params.id).then(function(){
+            response.redirect("/authors");
         });
     }
 });
