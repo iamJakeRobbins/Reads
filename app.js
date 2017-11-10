@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var expressValidator = require("express-validator");
+var methodOverride = require('method-override')
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -23,6 +25,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(methodOverride('_method'))
 app.use(expressValidator({
     customValidators: {
         isUrl: function(value){

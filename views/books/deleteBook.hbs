@@ -1,7 +1,6 @@
-<h1>Books</h1>
-<h6>Search yielded {{book.length}} results</h6>
-<a href="/books/new"> <button type="button" name="button">Add a New Book</button></a>
-{{#each book}} -->
+<section>
+
+<form method="POST" action="/books/{{id}}?_method=DELETE">
 <div class="media">
   <a href="/book/{{id}}"><img class="mr-3 covers" src="{{cover}}" alt="Generic placeholder image"></a>
   <div class="media-body">
@@ -14,4 +13,8 @@
 <a href="/books/{{id}}/deleteBook"><button type="button" name="button" class="btn btn-danger">Del</button></a>
 </div>
 </div>
-{{/each}}
+<div class="delButton">
+	<input type="submit" class="delete" value="Delete {{book.title}}?" />
+</div>
+</form>
+</section>

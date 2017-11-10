@@ -4,6 +4,10 @@ const knex = require('../db/knex')
 
 // functions
 
+function validId(id) {
+  return !isNaN(id);
+}
+
 // function validEntry(book){
 // 	return typeof book.title == 'string' &&
 // 		book.title.trim() != ''
@@ -36,6 +40,17 @@ router.get('/', (req, res) =>{
 	})
 });
 
+router.get('/:id/deleteBook', (req,res) => {
+	const id = req.params.id;
+	knex('book')
+	.select()
+	.where('id', id)
+	.first()
+	.then(book =>{
+	res.render('books/deleteBook', book)
+})
+})
+
 // GET add book page
 router.get('/new', (req, res) =>{
 	res.render('books/newBook')
@@ -63,5 +78,23 @@ router.post('/', (request ,response) =>{
 			})
 	}
 })
+
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+  if(validId(id)) {
+    knex('book')
+      .where('id', id)
+      .del()
+      .then(() => {
+        res.redirect('/books');
+      });
+  } else {
+    res.status( 500);
+    res.render('error', {
+      message:  'Invalid id'
+    });
+  }
+});
+
 
 module.exports = router;

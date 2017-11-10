@@ -33,3 +33,11 @@ header img {
 	height: 300px;
 	width: 300px;
 }
+.delButton{
+	display: flex;
+	justify-content: center;
+}
+.item-nav {
+	display: flex;
+	flex-direction: column;
+}
