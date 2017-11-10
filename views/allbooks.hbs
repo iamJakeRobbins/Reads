@@ -1,0 +1,16 @@
+<h1>Books</h1>
+<!-- <a href="/book/new"> <button type="button" name="button">Add a New Book</button></a>
+{{#each book}} -->
+<div class="media">
+  <a href="/book/{{id}}"><img class="mr-3 covers" src="{{cover}}" alt="Generic placeholder image"></a>
+  <div class="media-body">
+    <h3 class="mt-0">{{title}}</h5>
+		<h5 class='mt-0'><i>{{genre}}</i></h5>
+		<!-- <a href="/book/{{id}}/editBook"> <button type="button" name="button">Edit</button></a>
+		<a href="/book/{{id}}/deleteBook"><button type="button" name="button">Delete</button></a><br> -->
+{{description}}
+  </div>
+</div>
+{{/each}}
+
+<!-- <h6>number of books in our database: {{book.length}}</h6> -->
