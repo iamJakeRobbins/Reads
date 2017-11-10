@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 const knex = require('../db/knex')
 
+function validId(id) {
+  return !isNaN(id);
+}
+
 function mapBooksToAuthors(records){
     var mappedAuthors = records.reduce(function(mappedAuthors, currentRecord){
         currentRecord = reassignAuthorIdToId(currentRecord);
@@ -67,17 +71,22 @@ router.get("/", function(request, response, next) {
     });
 });
 
-// router.get('/', (req, res) =>{
-// 	knex('author')
-// 	.select()
-// 	.then((authorData)=> {
-//   res.render('authors/allAuthors', {author:authorData, layout: "layout_author"});
-// 	})
-// });
-
 router.get('/new', (req, res) =>{
 	res.render('authors/newAuthor', {layout: "layout_author"})
 })
+
+router.get("/:id/deleteAuthor", function(request, response, next) {
+    knex("author")
+        .select("*", "author.id AS author_id")
+        .leftOuterJoin("book_author", "author.id", "author_id")
+        .leftOuterJoin("book", "book_id", "book.id")
+        .where("author.id", request.params.id)
+    .then(function(authors){
+        var authors = mapBooksToAuthors(authors);
+        response.render("authors/deleteAuthor", {layout: "layout_author", author: authors[0]});
+    });
+});
+
 
 router.post("/", function(request, response, next) {
     request.checkBody("first_name", "First name is empty or too long").notEmpty().isLength({max: 255});
@@ -100,6 +109,21 @@ router.post("/", function(request, response, next) {
     }
 });
 
-
+router.delete('/:id', (req, res) => {
+  const id = req.params.id;
+  if(validId(id)) {
+    knex('author')
+      .where('id', id)
+      .del()
+      .then(() => {
+        res.redirect('/authors');
+      });
+  } else {
+    res.status( 500);
+    res.render('error', {
+      message:  'Invalid id'
+    });
+  }
+});
 
 module.exports = router;

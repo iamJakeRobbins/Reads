@@ -1,8 +1,8 @@
-{{#each author}} -->
-<div class="medias">
 <h1>Authors</h1>
 <!-- <h6>Search yielded {{author.length}} results</h6> -->
-<!-- <a href="/authors/new"> <button type="button" name="button">Add a New author</button></a> -->
+<a href="/authors/new"> <button type="button" name="button">Add a New author</button></a>
+{{#each author}}
+<div class="medias">
 <div class="media">
   <a href="/authors/{{id}}"><img class="mr-3 covers" src="{{portrait_url}}" alt="Generic placeholder image"></a>
   <div class="media-body">
@@ -16,10 +16,10 @@
 	{{/each}}
 </h5>
 </div> <br>
-<!-- <div class="item-nav">
-<a href="/books/{{id}}/editBook"> <button type="button" name="button" class='btn btn-primary'>Edit</button></a>
-<a href="/books/{{id}}/deleteBook"><button type="button" name="button" class="btn btn-danger">Del</button></a>
-</div> -->
+<div class="item-nav">
+<!-- <a href="/books/{{id}}/editBook"> <button type="button" name="button" class='btn btn-primary'>Edit</button></a> -->
+<a href="/authors/{{id}}/deleteAuthor"><button type="button" name="button" class="btn btn-danger">Del</button></a>
+</div>
 </div>
 </div>
 {{/each}}

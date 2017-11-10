@@ -1,9 +1,9 @@
-{{#each book}} -->
-<div class="medias">
 
 
 <h1>Books</h1>
 <h6>Search yielded {{book.length}} results</h6>
+{{#each book}}
+<div class="medias">
 <a href="/books/new"> <button type="button" name="button">Add a New Book</button></a>
 <div class="media">
   <a href="/books/{{id}}"><img class="mr-3 covers" src="{{cover_url}}" alt="Generic placeholder image"></a>

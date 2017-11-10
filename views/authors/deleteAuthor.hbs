@@ -1,0 +1,24 @@
+<form method="POST" action="/authors/{{author.id}}?_method=DELETE">
+<div class="media">
+  <a href="/authors/{{author.id}}"><img class="mr-3 covers" src="{{author.portrait_url}}" alt="Generic placeholder image"></a>
+  <div class="media-body">
+    <h3 class="mt-0">{{author.first_name}} {{author.last_name}}</h5>
+{{author.biography}}
+<h5 class="mt-0 "> <br><br>
+	<h5>books</h5>
+	{{#each author.books}}
+	<li>
+		<a href="/books/{{id}}">{{title}}</a>
+	</li>
+	{{/each}}
+</h5>
+</div> <br>
+<div class="item-nav">
+<!-- <a href="/books/{{id}}/editBook"> <button type="button" name="button" class='btn btn-primary'>Edit</button></a> -->
+<a href="/authors/{{id}}/deleteAuthor"><button type="button" name="button" class="btn btn-danger">Del</button></a>
+</div>
+</div>
+<div class="delButton">
+	<input type="submit" class="btn btn-danger" value="Delete {{author.first_name}} {{author.last_name}}?"/>
+</div>
+</form>
