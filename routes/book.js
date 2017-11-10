@@ -90,17 +90,10 @@ router.get("/", function(request, response, next) {
         .innerJoin("author", "author_id", "author.id")
     .then(function(records){
         var books = mapAuthorsToBooks(records);
-        response.render("books/allbooks", {book: books});
+        response.render("books/allbooks", {book: books, layout: "layout_books"});
     });
 });
-/* GET home page. */
-// router.get('/', (req, res) =>{
-// 	knex('book')
-// 	.select()
-// 	.then((bookData)=> {
-//   res.render('books/allbooks', {book:bookData});
-// 	})
-// });
+
 // GET delete book page
 router.get('/:id/deleteBook', (req,res) => {
 	const id = req.params.id;
@@ -109,13 +102,15 @@ router.get('/:id/deleteBook', (req,res) => {
 	.where('id', id)
 	.first()
 	.then(book =>{
-	res.render('books/deleteBook', book)
+		console.log(book);
+	res.render('books/deleteBook', {layout: "layout_books", book})
 })
 })
 
 // GET add book page
 router.get('/new', (req, res) =>{
-	res.render('books/newBook')
+	res.render('books/newBook',
+{layout: "layout_books"})
 })
 
 // GET edit book page
@@ -126,7 +121,7 @@ router.get('/:id/editBook', (req,res) => {
 	.where('id', id)
 	.first()
 	.then(book =>{
-	res.render('books/editBook', book)
+	res.render('books/editBook', {layout: "layout_books", book})
 })
 })
 
@@ -139,7 +134,7 @@ router.get('/:id', (req,res) =>{
 		.where ('id', id)
 		.first()
 		.then(book => {
-		res.render('books/singleBook', book)
+		res.render('books/singleBook',{layout: "layout_books", book})
 	})
 	}else {
 		res.status(500)

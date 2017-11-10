@@ -1,14 +1,19 @@
+{{#each book}} -->
+<div class="medias">
+
+
 <h1>Books</h1>
 <h6>Search yielded {{book.length}} results</h6>
 <a href="/books/new"> <button type="button" name="button">Add a New Book</button></a>
-{{#each book}} -->
 <div class="media">
   <a href="/books/{{id}}"><img class="mr-3 covers" src="{{cover_url}}" alt="Generic placeholder image"></a>
   <div class="media-body">
     <h3 class="mt-0">{{title}}</h5>
 		<h5 class="mt-0 authors">
       {{#each authors}}
-        <a href="/authors/{{id}}"><span>{{first_name}} {{last_name}}</span></a>
+				<li>
+					<a href="/authors/{{id}}">{{first_name}} {{last_name}}</a>
+				</li>
       {{/each}}
 		</h5>
 		<h5 class='mt-0'><i>{{genre}}</i></h5>
@@ -17,6 +22,7 @@
 <div class="item-nav">
 <a href="/books/{{id}}/editBook"> <button type="button" name="button" class='btn btn-primary'>Edit</button></a>
 <a href="/books/{{id}}/deleteBook"><button type="button" name="button" class="btn btn-danger">Del</button></a>
+</div>
 </div>
 </div>
 {{/each}}

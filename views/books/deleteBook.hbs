@@ -1,16 +1,16 @@
 <section>
 
-<form method="POST" action="/books/{{id}}?_method=DELETE">
+<form method="POST" action="/books/{{book.id}}?_method=DELETE">
 <div class="media">
-  <a href="/books/{{id}}"><img class="mr-3 covers" src="{{cover_url}}" alt="Generic placeholder image"></a>
+  <a href="/books/{{book.id}}"><img class="mr-3 covers" src="{{book.cover_url}}" alt="Generic placeholder image"></a>
   <div class="media-body">
-    <h3 class="mt-0">{{title}}</h5>
-		<h5 class='mt-0'><i>{{genre}}</i></h5>
-{{description}}
+    <h3 class="mt-0">{{book.title}}</h5>
+		<h5 class='mt-0'><i>{{book.genre}}</i></h5>
+{{book.description}}
 </div> <br>
 <div class="item-nav">
-<a href="/books/{{id}}/editBook"> <button type="button" name="button" class='btn btn-primary'>Edit</button></a>
-<a href="/books/{{id}}/deleteBook"><button type="button" name="button" class="btn btn-danger">Del</button></a>
+<a href="/books/{{book.id}}/editBook"> <button type="button" name="button" class='btn btn-primary'>Edit</button></a>
+<a href="/books/{{book.id}}/deleteBook"><button type="button" name="button" class="btn btn-danger">Del</button></a>
 </div>
 </div>
 <div class="delButton">

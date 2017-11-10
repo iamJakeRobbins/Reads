@@ -7,7 +7,7 @@ router.get('/', (req, res) =>{
 	knex('author')
 	.select()
 	.then((authorData)=> {
-  res.render('authors/allAuthors', {author:authorData});
+  res.render('authors/allAuthors', {author:authorData, layout: "layout_author"});
 	})
 });
 
