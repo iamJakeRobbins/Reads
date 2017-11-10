@@ -101,6 +101,19 @@ router.get("/:id/deleteAuthor", function(request, response, next) {
     });
 });
 
+// GET single author page
+router.get("/:id", function(request, response, next) {
+    knex("author")
+        .select("*", "author.id AS author_id")
+        .leftOuterJoin("book_author", "author.id", "author_id")
+        .leftOuterJoin("book", "book_id", "book.id")
+        .where("author.id", request.params.id)
+    .then(function(authors){
+        var authors = mapBooksToAuthors(authors);
+        response.render("authors/singleAuthor", {layout: "layout_author", author: authors[0]});
+    });
+})
+
 
 router.post("/", function(request, response, next) {
     request.checkBody("first_name", "First name is empty or too long").notEmpty().isLength({max: 255});
