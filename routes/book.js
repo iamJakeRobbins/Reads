@@ -39,7 +39,7 @@ router.get('/', (req, res) =>{
   res.render('books/allbooks', {book:bookData});
 	})
 });
-
+// GET delete book page
 router.get('/:id/deleteBook', (req,res) => {
 	const id = req.params.id;
 	knex('book')
@@ -56,6 +56,7 @@ router.get('/new', (req, res) =>{
 	res.render('books/newBook')
 })
 
+// GET edit book page
 router.get('/:id/editBook', (req,res) => {
 	const id = req.params.id;
 	knex('book')
@@ -65,6 +66,25 @@ router.get('/:id/editBook', (req,res) => {
 	.then(book =>{
 	res.render('books/editBook', book)
 })
+})
+
+// GET single book page
+router.get('/:id', (req,res) =>{
+	const id = req.params.id;
+	if (typeof id != 'undefined') {
+		knex('book')
+		.select()
+		.where ('id', id)
+		.first()
+		.then(book => {
+		res.render('books/singleBook', book)
+	})
+	}else {
+		res.status(500)
+		res.render('error', {
+			message: 'invalid'
+	})
+}
 })
 
 // POST new book to database (includes validation)

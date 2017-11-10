@@ -1,8 +1,5 @@
-<section>
-
-<form method="POST" action="/books/{{id}}?_method=DELETE">
 <div class="media">
-  <a href="/books/{{id}}"><img class="mr-3 covers" src="{{cover}}" alt="Generic placeholder image"></a>
+  <a href="/book/{{id}}"><img class="mr-3 covers" src="{{cover}}" alt="Generic placeholder image"></a>
   <div class="media-body">
     <h3 class="mt-0">{{title}}</h5>
 		<h5 class='mt-0'><i>{{genre}}</i></h5>
@@ -13,8 +10,3 @@
 <a href="/books/{{id}}/deleteBook"><button type="button" name="button" class="btn btn-danger">Del</button></a>
 </div>
 </div>
-<div class="delButton">
-	<input type="submit" class="btn btn-danger" value="Delete {{book.title}}?" />
-</div>
-</form>
-</section>
